@@ -1,4 +1,4 @@
- using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -39,9 +39,12 @@ namespace FriendZone
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FriendZone", Version = "v1" });
             });
             services.AddScoped<IDbConnection>(x => CreateDbConnection());
-            
+
             services.AddScoped<AccountsRepository>();
             services.AddScoped<AccountService>();
+            services.AddTransient<FollowsRepository>();
+            services.AddTransient<FollowsService>();
+
         }
 
         private void ConfigureCors(IServiceCollection services)
@@ -94,10 +97,10 @@ namespace FriendZone
             }
 
             app.UseHttpsRedirection();
-            
+
             app.UseDefaultFiles();
             app.UseStaticFiles();
-            
+
             app.UseRouting();
 
             app.UseAuthentication();
